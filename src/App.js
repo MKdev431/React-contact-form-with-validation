@@ -3,22 +3,40 @@ import "./App.css";
 class App extends Component {
   state = {
     username: "",
+    email: "",
+    pass: "",
+    accept: false,
   };
 
   handleChange = e => {
-    console.log(e.target.type);
-    console.log(e.target.name);
+    const name = e.target.name;
+    const type = e.target.type;
 
-    const value = e.target.value;
-    this.setState({
-      username: value,
-    });
+    if (type === "text" || type === "email" || type === "pass") {
+      const value = e.target.value;
+      this.setState({
+        [name]: value,
+      });
+    } else if (type === "checkbox") {
+      const checked = e.target.checked;
+      this.setState({
+        [name]: checked,
+      });
+    }
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log("ok");
   };
 
   render() {
     return (
       <div className="App">
-        <form>
+        <form
+          onSubmit={this.handleSubmit}
+          noValidate
+        >
           <label htmlFor="user">
             Name:
             <input
@@ -29,6 +47,44 @@ class App extends Component {
               onChange={this.handleChange}
             />
           </label>
+
+          <label htmlFor="email">
+            Email:
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+          </label>
+
+          <label htmlFor="password">
+            Password:
+            <input
+              type="password"
+              id="password"
+              name="pass"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </label>
+
+          <label
+            htmlFor="accept"
+            className="checkbox"
+          >
+            <input
+              type="checkbox"
+              id="accept"
+              name="accept"
+              checked={this.state.accept}
+              onChange={this.handleChange}
+            />
+            I accept terms
+          </label>
+
+          <button>Submit</button>
         </form>
       </div>
     );
